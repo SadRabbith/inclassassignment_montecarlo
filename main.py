@@ -18,3 +18,10 @@ def inverse_cdf(u):
    
     return -np.log(1 - u * (1 - np.exp(-1)))
 
+#now the sampling, generating uniform random numbers u in U(0,1) 
+
+def sample_inverse_cdf(n_samples):
+    u_samples = np.random.uniform(0, 1, n_samples)    
+    samples = inverse_cdf(u_samples)
+    return samples
+
