@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-a = 5
+a = 3
 b=2
-def ellipse(x, a=5, b=2):
+def ellipse(x, a=a, b=b):
     val = 1 - (x**2) / (a**2)
     return np.sqrt(b**2 * np.maximum(val, 0.0))
 
