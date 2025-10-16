@@ -2,15 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-def ellipse(x, a=5, b=2):
+a = 5
+b=2
+def ellipse(x):
     val = 1 - (x**2) / (a**2)
     return np.sqrt(b**2 * np.maximum(val, 0.0))
 
 def integrate(f, N):
     hits = 0 #number of points inside area
     for i in range(N):
-        x = 5*random.random() #random number between 0 and 5
-        y = 2*random.random() #random number between 0 and 2
+        x = a*random.random() #random number between 0 and 5
+        y = b*random.random() #random number between 0 and 2
 
         if y<f(x):
             hits+=1   #if random point is under function, iterate hits
@@ -19,7 +21,7 @@ def integrate(f, N):
 
     return 4*integral #4x, since we're sampling from only the first quadrant
 print("Area Computed Value: ",integrate(ellipse,10000))
-print("Area Analytic Value: ",np.pi*5*2)
+print("Area Analytic Value: ",np.pi*a*b)
 
 # N = np.arange(1,10000,100) 
 # int_val = np.zeros(len(N))
@@ -39,22 +41,22 @@ print("Area Analytic Value: ",np.pi*5*2)
 
 ################## FINDING CIRCUMFERENCE #################
 epsilon = 0.1
-ellipse_2 = lambda x: ellipse(x, 5-epsilon, 2-epsilon)
+ellipse_2 = lambda x: ellipse(x, a-epsilon, b-epsilon)
 
 def circumference_estimate(f1,f2, N):
     hits = 0 #number of points inside area
     for i in range(N):
-        x = 5*random.random() #random number between 0 and 5
-        y = 2*random.random() #random number between 0 and 2
+        x = a*random.random() #random number between 0 and 5
+        y = b*random.random() #random number between 0 and 2
 
         if y<f1(x) and y>f2(x):
             hits+=1   #if random point is under function, iterate hits
 
-    area_shell = 4 * (hits / N) * (5 * 2) # area / epsilon is circumference
+    area_shell = 4 * (hits / N) * (a * b) # area / epsilon is circumference
     return area_shell / epsilon
 
-h = ((5 - 2)**2) / ((5 + 2)**2)
-analytic_circ = np.pi * (5 + 2) * (1 + (3*h)/(10 + np.sqrt(4 - 3*h)))
+h = ((a - b)**2) / ((a + b)**2)
+analytic_circ = np.pi * (a + b) * (1 + (3*h)/(10 + np.sqrt(4 - 3*h)))
 
 print("Circumference Computed Value: ", circumference_estimate(ellipse, ellipse_2, 100000))
 print("Circumference Analytic Value: ", analytic_circ)
@@ -90,9 +92,9 @@ plt.show()
 
 def circumference_importance(N):
     # only samples near shell
-    xs = np.random.rand(N) * 5                 
+    xs = np.random.rand(N) * a              
     heights = ellipse(xs) - ellipse_2(xs)           # shell height at each x
-    area_shell_est = 4 * 5 * np.mean(heights)       # monte carlo
+    area_shell_est = 4 * a * np.mean(heights)       # monte carlo
     return area_shell_est / epsilon     
 
 circ_uncert_importance = [mc_stats(lambda n: circumference_importance(n), N) for N in Ns]
