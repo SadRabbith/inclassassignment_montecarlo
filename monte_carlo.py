@@ -4,7 +4,7 @@ import random
 
 a = 5
 b=2
-def ellipse(x):
+def ellipse(x, a=5, b=2):
     val = 1 - (x**2) / (a**2)
     return np.sqrt(b**2 * np.maximum(val, 0.0))
 
